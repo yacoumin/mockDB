@@ -1,0 +1,22 @@
+{
+  "name": "mockdb",
+  "version": "1.0.0",
+  "description": "a mock database for the Awk application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yacoumin/mockDB.git"
+  },
+  "author": "Mina Yacoup",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yacoumin/mockDB/issues"
+  },
+  "homepage": "https://github.com/yacoumin/mockDB#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
