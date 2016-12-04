@@ -1,17 +1,28 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+var fs = require('fs');
+
 var app = express();
 var port = process.env.PORT || 3000;
 app.listen(port);
 var movies = require('./data/movies.json')
+var usersDB = require('./data/users.json')
 
-// allow easy lookup by id
-var moviesById = {}
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(bodyParser.json())
+
+var users = {};
+var moviesById = {};
 var moviesList;
 movies.movieList.map(function(movie) {
   moviesById[movie.movieId] = movie
 })
 moviesList = Object.keys(moviesById);
 
+usersDB.users.map(function(user) {
+  users[user.name] = user;
+})
 // app.use(express.static('public'));
 
 app.get("/movies", function(req,res) {
@@ -44,4 +55,24 @@ app.get("/movies/:id", function(req,res) {
   else {
     res.status(404).send("no movies found")
   }
+});
+
+app.post("/users/create", function(req,res) {
+  var user = req.body.userinfo;
+  console.log(user);
+  users[user.name] = user;
+  usersDB.users.push(user);
+  fs.writeFile('./data/users.json', JSON.stringify(usersDB), function (err) {
+    if (err) return console.log(err);
+    console.log('writing to usersDB');
+  });
+  res.sendStatus(200);
+});
+
+app.post("/customize/:userid", function(req,res) {
+
+});
+
+app.get("/users", function(req,res) {
+  res.sendFile(__dirname + "/data/users.json")
 });
